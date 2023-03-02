@@ -1,6 +1,7 @@
 package email
 
 import (
+	"encoding/json"
 	"errors"
 	"net/smtp"
 	"strings"
@@ -11,6 +12,11 @@ type Options struct {
 	User     string `json:"user"`
 	Password string `json:"password"`
 	Host     string `json:"host"`
+}
+
+type Info struct {
+	Subject string `json:"subject"`
+	Content string `json:"content"`
 }
 
 type client struct {
@@ -30,6 +36,19 @@ func (c *client) Send(message string) error {
 		return errors.New("missing message")
 	}
 
+	var subject string
+	var content string
+
+	var info Info
+	err := json.Unmarshal([]byte(message), &info)
+	if err == nil {
+		subject = info.Subject
+		content = info.Content
+	} else {
+		subject = message
+		content = message
+	}
+
 	user := c.opt.User
 	password := c.opt.Password
 	host := c.opt.Host
@@ -38,13 +57,12 @@ func (c *client) Send(message string) error {
 	cc := []string{}
 	bcc := []string{}
 
-	subject := message
-	mailType := "html"
+	mailType := "text"
 	replyToAddress := c.opt.User
 
-	body := `<html><body><h3>` + message + `</h3></body></html>`
-	err := SendToMail(user, password, host, subject, body, mailType, replyToAddress, to, cc, bcc)
-	if err != nil {
+	body := content
+
+	if err := SendToMail(user, password, host, subject, body, mailType, replyToAddress, to, cc, bcc); err != nil {
 		return errors.New("send email error: " + err.Error())
 	} else {
 		return nil
