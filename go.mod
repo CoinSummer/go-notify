@@ -1,4 +1,4 @@
-module github.com/deng00/go-notify
+module github.com/CoinSummer/go-notify
 
 go 1.15
 
