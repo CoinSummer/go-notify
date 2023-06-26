@@ -11,11 +11,11 @@ import (
 )
 
 type Options struct {
-	To     string `json:"to"`
-	Key    string `json:"key"`
-	Secret string `json:"secret"`
-	Area   string `json:"host"`
-	Sender string `json:"sender"`
+	ToEmail string `json:"to_email"`
+	Key     string `json:"key"`
+	Secret  string `json:"secret"`
+	Area    string `json:"host"`
+	Sender  string `json:"sender"`
 }
 
 type Info struct {
@@ -32,7 +32,7 @@ func New(opt Options) *client {
 }
 
 func (c *client) Send(message string) error {
-	if "" == c.opt.To {
+	if "" == c.opt.ToEmail {
 		return errors.New("missing email address")
 	}
 
@@ -57,7 +57,7 @@ func (c *client) Send(message string) error {
 	secret := c.opt.Secret
 	area := c.opt.Area
 	to := []*string{
-		aws.String(c.opt.To),
+		aws.String(c.opt.ToEmail),
 	}
 	sender := c.opt.Sender
 	body := content

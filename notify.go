@@ -37,13 +37,12 @@ type Notify struct {
 type Config struct {
 	Platform Platform
 
-	To     string
-	Key    string
-	Secret string
-	Area   string
-	Sender string
+	ToEmail string
+	Key     string
+	Secret  string
+	Area    string
+	Sender  string
 
-	ToEmail  string
 	Token    string
 	Channel  string
 	Source   string
@@ -74,7 +73,8 @@ func (n *Notify) Send(msg string) error {
 	case PlatformDingTalk:
 		return n.sendDingTalkNotify(msg)
 	case PlatformEmail:
-		return n.sendEmailNotify(msg)
+		// change to ses
+		return n.sendSesNotify(msg)
 	case PlatformSes:
 		return n.sendSesNotify(msg)
 	case PlatformLark:
@@ -164,11 +164,11 @@ func (n *Notify) sendEmailNotify(msg string) error {
 
 func (n *Notify) sendSesNotify(msg string) error {
 	app := ses.New(ses.Options{
-		To:     n.config.To,
-		Key:    n.config.Key,
-		Secret: n.config.Secret,
-		Area:   n.config.Area,
-		Sender: n.config.Sender,
+		ToEmail: n.config.Token,
+		Key:     n.config.Key,
+		Secret:  n.config.Secret,
+		Area:    n.config.Area,
+		Sender:  n.config.Sender,
 	})
 	err := app.Send(msg)
 	return err

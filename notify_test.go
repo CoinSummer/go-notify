@@ -103,7 +103,7 @@ func TestNotify_Send(t *testing.T) {
 			"test ses notify",
 			fields{config: &Config{
 				Platform: PlatformSes,
-				To:       os.Getenv("Email_To"),
+				Token:    os.Getenv("Email_To"),
 				Sender:   os.Getenv("Email_SENDER"),
 				Key:      os.Getenv("IAM_KEY"),
 				Secret:   os.Getenv("IAM_SECRET"),
