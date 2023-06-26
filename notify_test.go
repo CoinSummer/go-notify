@@ -99,6 +99,18 @@ func TestNotify_Send(t *testing.T) {
 			}},
 			args{msg: "test case"},
 		},
+		{
+			"test ses notify",
+			fields{config: &Config{
+				Platform: PlatformSes,
+				To:       os.Getenv("Email_To"),
+				Sender:   os.Getenv("Email_SENDER"),
+				Key:      os.Getenv("IAM_KEY"),
+				Secret:   os.Getenv("IAM_SECRET"),
+				Area:     os.Getenv("IAM_AREA"),
+			}},
+			args{msg: "test case"},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

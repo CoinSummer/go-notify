@@ -2,16 +2,18 @@ package notify
 
 import (
 	"errors"
+	"strconv"
+	"strings"
+
 	"github.com/CoinSummer/go-notify/dingtalk"
 	"github.com/CoinSummer/go-notify/discord"
 	"github.com/CoinSummer/go-notify/email"
 	"github.com/CoinSummer/go-notify/lark"
 	"github.com/CoinSummer/go-notify/pagerduty"
 	"github.com/CoinSummer/go-notify/pushover"
+	"github.com/CoinSummer/go-notify/ses"
 	"github.com/CoinSummer/go-notify/slack"
 	"github.com/CoinSummer/go-notify/telegram"
-	"strconv"
-	"strings"
 )
 
 type Platform string
@@ -24,6 +26,7 @@ const (
 	PlatformTelegram           = "Telegram"
 	PlatformDingTalk           = "DingTalk"
 	PlatformEmail              = "Email"
+	PlatformSes                = "AwsEmail"
 	PlatformLark               = "Lark"
 )
 
@@ -33,6 +36,14 @@ type Notify struct {
 
 type Config struct {
 	Platform Platform
+
+	To     string
+	Key    string
+	Secret string
+	Area   string
+	Sender string
+
+	ToEmail  string
 	Token    string
 	Channel  string
 	Source   string
@@ -64,6 +75,8 @@ func (n *Notify) Send(msg string) error {
 		return n.sendDingTalkNotify(msg)
 	case PlatformEmail:
 		return n.sendEmailNotify(msg)
+	case PlatformSes:
+		return n.sendSesNotify(msg)
 	case PlatformLark:
 		return n.sendLarkNotify(msg)
 	default:
@@ -144,6 +157,18 @@ func (n *Notify) sendEmailNotify(msg string) error {
 		User:     n.config.User,
 		Password: n.config.Password,
 		Host:     n.config.Host,
+	})
+	err := app.Send(msg)
+	return err
+}
+
+func (n *Notify) sendSesNotify(msg string) error {
+	app := ses.New(ses.Options{
+		To:     n.config.To,
+		Key:    n.config.Key,
+		Secret: n.config.Secret,
+		Area:   n.config.Area,
+		Sender: n.config.Sender,
 	})
 	err := app.Send(msg)
 	return err
