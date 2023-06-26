@@ -5,15 +5,15 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/CoinSummer/go-notify/dingtalk"
-	"github.com/CoinSummer/go-notify/discord"
-	"github.com/CoinSummer/go-notify/email"
-	"github.com/CoinSummer/go-notify/lark"
-	"github.com/CoinSummer/go-notify/pagerduty"
-	"github.com/CoinSummer/go-notify/pushover"
-	"github.com/CoinSummer/go-notify/ses"
-	"github.com/CoinSummer/go-notify/slack"
-	"github.com/CoinSummer/go-notify/telegram"
+	"github.com/ChainbotAI/go-notify/dingtalk"
+	"github.com/ChainbotAI/go-notify/discord"
+	"github.com/ChainbotAI/go-notify/email"
+	"github.com/ChainbotAI/go-notify/lark"
+	"github.com/ChainbotAI/go-notify/pagerduty"
+	"github.com/ChainbotAI/go-notify/pushover"
+	"github.com/ChainbotAI/go-notify/ses"
+	"github.com/ChainbotAI/go-notify/slack"
+	"github.com/ChainbotAI/go-notify/telegram"
 )
 
 type Platform string

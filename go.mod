@@ -1,4 +1,4 @@
-module github.com/CoinSummer/go-notify
+module github.com/ChainbotAI/go-notify
 
 go 1.15
 
