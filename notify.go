@@ -50,6 +50,7 @@ type Config struct {
 	User     string
 	Password string
 	Host     string
+	Priority int
 }
 
 func NewNotify(config *Config) *Notify {
@@ -87,8 +88,9 @@ func (n *Notify) Send(msg string) error {
 
 func (n *Notify) sendPushOverNotify(msg string) error {
 	app := pushover.New(pushover.Options{
-		Token: n.config.Token,
-		User:  n.config.Channel,
+		Token:    n.config.Token,
+		User:     n.config.Channel,
+		Priority: n.config.Priority,
 	})
 	err := app.Send(msg)
 	return err

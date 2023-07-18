@@ -3,6 +3,7 @@ package pushover
 import (
 	"encoding/json"
 	"errors"
+
 	"github.com/imroc/req"
 )
 
@@ -11,11 +12,13 @@ const (
 )
 
 // Options allows full configuration of the message sent to the Pushover API
+// https://pushover.net/api#messages
 type Options struct {
 	Token string `json:"token"`
 	// User may be either a user key or a group key.
-	User    string `json:"user"`
-	Message string `json:"message"`
+	User     string `json:"user"`
+	Message  string `json:"message"`
+	Priority int    `json:"priority"`
 }
 
 type client struct {
