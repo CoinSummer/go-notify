@@ -3,6 +3,8 @@ package ses
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
+	"strings"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -56,6 +58,9 @@ func (c *client) Send(message string) error {
 	key := c.opt.Key
 	secret := c.opt.Secret
 	area := c.opt.Area
+	if IsBlockEmail(c.opt.ToEmail) {
+		return errors.New(fmt.Sprintf("email %s is blocked", c.opt.ToEmail))
+	}
 	to := []*string{
 		aws.String(c.opt.ToEmail),
 	}
@@ -107,4 +112,15 @@ func SendToMail(key string, secret string, area string, sender string, subject s
 	}
 
 	return nil
+}
+
+func IsBlockEmail(email string) bool {
+	illegalEmail := false
+	for _, suffix := range []string{"@qq.com", "@foxmail.com", "@126.com", "@163.com"} {
+		if strings.HasSuffix(email, suffix) {
+			illegalEmail = true
+			break
+		}
+	}
+	return illegalEmail
 }
