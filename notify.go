@@ -32,14 +32,14 @@ type Notify struct {
 }
 
 type Config struct {
-	Platform Platform
-	Token    string
-	Channel  string
-	Source   string
-	Severity string
-	User     string
-	Password string
-	Host     string
+	Platform Platform `mapstructure:"platform"`
+	Token    string   `mapstructure:"token"`
+	Channel  string   `mapstructure:"channel"`
+	Source   string   `mapstructure:"source"`
+	Severity string   `mapstructure:"severity"`
+	User     string   `mapstructure:"user"`
+	Password string   `mapstructure:"password"`
+	Host     string   `mapstructure:"host"`
 }
 
 func NewNotify(config *Config) *Notify {
@@ -69,7 +69,6 @@ func (n *Notify) Send(msg string) error {
 	default:
 		return errors.New("not supported notify platform")
 	}
-	return nil
 }
 
 func (n *Notify) sendPushOverNotify(msg string) error {
